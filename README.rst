@@ -1,15 +1,15 @@
 
-==================================
-ETCD Formula
-==================================
+====
+etcd
+====
 
-Service etcd description
+A distributed, reliable key-value store for the most critical data of a distributed system.
 
 Sample pillars
 ==============
 
-Single etcd service
----------------------
+Standalone etcd service
+-----------------------
 
 .. code-block:: yaml
 
@@ -24,7 +24,7 @@ Single etcd service
           name: etcd01
           port: 4001
 
-Cluster etcd service
+Clustered etcd service
 ----------------------
 
 .. code-block:: yaml
@@ -46,8 +46,8 @@ Cluster etcd service
           name: etcd03
           port: 4001
 
-ETCD proxy
--------------
+etcd proxy
+----------
 
 .. code-block:: yaml
 
@@ -57,16 +57,10 @@ ETCD proxy
         bind:
           host: 10.0.175.101
         proxy: true
-        members:
-        - host: 10.0.175.101
-          name: etcd01
-        - host: 10.0.175.102
-          name: etcd02
-        - host: 10.0.175.103
-          name: etcd03
 
-run ETCD on k8s
----------------
+
+etcd on k8s
+-----------
 
 .. code-block:: yaml
 
@@ -77,4 +71,4 @@ run ETCD on k8s
 Read more
 =========
 
-* links
+* https://coreos.com/etcd/

@@ -4,12 +4,8 @@
 etcd_packages:
   pkg.installed:
   - names: {{ server.pkgs }}
-{%- if server.get('engine', 'systemd') %}
-  - require:
-    - file: /etc/default/etcd
-{%- endif %}
 
-{%- if server.get('engine', 'systemd') == 'kubernetes' %}
+{%- if server.engine == 'kubernetes' %}
 
 etcd_service:
   service.dead:
@@ -24,27 +20,33 @@ etcd_service:
 
 /etc/kubernetes/manifests/etcd.manifest:
   file.managed:
-    - source: salt://etcd/files/etcd.manifest
-    - template: jinja
-    - user: root
-    - group: root
-    - mode: 644
-    - makedirs: true
-    - dir_mode: 755
+  - source: salt://etcd/files/etcd.manifest
+  - template: jinja
+  - user: root
+  - group: root
+  - mode: 644
+  - makedirs: true
+  - dir_mode: 755
 
-{%- else %}
+{%- endif %}
+
+{%- if server.engine == 'systemd' %}
 
 /etc/default/etcd:
   file.managed:
-    - source: salt://etcd/files/default
-    - template: jinja
+  - source: salt://etcd/files/default
+  - template: jinja
+  - require_in:
+    - pkg: etcd_packages
 
-etcd:
+etcd_service:
   service.running:
   - enable: True
-  - name: {{ server.services }}
+  - name: {{ server.service }}
   - watch:
     - file: /etc/default/etcd
+  - require:
+    - pkg: etcd_packages
 
 {%- endif %}
 

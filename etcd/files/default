@@ -2,7 +2,7 @@
 ## etcd(1) daemon options
 ## See "/usr/share/doc/etcd/Documentation/configuration.md.gz".
 
-{%- if server.proxy is defined %}
+{%- if server.proxy %}
 
 ### Proxy Flags
 
@@ -40,8 +40,8 @@ ETCD_INITIAL_CLUSTER="{% for member in server.members %}{{ member.name }}={%- if
 ## default: 0
 # ETCD_PROXY_READ_TIMEOUT="0"
 
-
 {%- else %}
+
 ### Member Flags
 
 ##### -name
@@ -268,4 +268,5 @@ ETCD_ADVERTISE_CLIENT_URLS="http://{{ server.bind.host }}:4001"
 
 #### Daemon parameters:
 # DAEMON_ARGS=""
-{% endif %}
+
+{%- endif %}
